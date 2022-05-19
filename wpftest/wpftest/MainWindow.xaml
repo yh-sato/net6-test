@@ -29,7 +29,7 @@
             CanUserAddRows="False"
             CanUserDeleteRows="False"
             SelectionUnit="CellOrRowHeader"
-            ItemsSource="Binding Customers">
+            ItemsSource="{Binding Customers}">
 
         </DataGrid>
     </StackPanel>

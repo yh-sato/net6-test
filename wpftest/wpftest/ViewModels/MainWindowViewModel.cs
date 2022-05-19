@@ -14,7 +14,8 @@ public class MainWindowViewModel : INotifyPropertyChanged, IMainWindowViewModel
 
     private HttpClient client;
 
-    public List<Customer> Customers = new List<Customer>();
+    // DataGridバインド用プロパティ
+    public List<Customer> Customers {get;} = new List<Customer>();
 
     public MainWindowViewModel(HttpClient client)
     {
@@ -25,7 +26,8 @@ public class MainWindowViewModel : INotifyPropertyChanged, IMainWindowViewModel
             System.Console.WriteLine("Loaded !!");
         });
 
-        Customers.Add(new Customer{ID=1,Address="hoge",CompanyName = "fuga", Phone ="00-99"});
+        // バインド確認用
+        // Customers.Add(new Customer{ID=1,Address="hoge",CompanyName = "fuga", Phone ="00-99"});
     }
 
     public event PropertyChangedEventHandler PropertyChanged;
