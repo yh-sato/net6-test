@@ -7,7 +7,7 @@ using Reactive.Bindings;
 
 namespace Wpftest.ViewModels;
 
-public class MainWindowViewModel : INotifyPropertyChanged
+public class MainWindowViewModel : INotifyPropertyChanged, IMainWindowViewModel
 {
     // Viewにバインドされるコマンド
     public ReactiveCommand LoadedCommand { get; } = new();

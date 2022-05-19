@@ -26,7 +26,9 @@ public partial class App : Application
     private void ConfigureServices(ServiceCollection services)
     {
         services.AddHttpClient<MainWindowViewModel>();
-        services.AddSingleton<MainWindow>();
+        services
+            .AddSingleton<IMainWindowViewModel, MainWindowViewModel>()
+            .AddSingleton<MainWindow>();
     }
 
     private void OnStartup(object sender, StartupEventArgs e)
