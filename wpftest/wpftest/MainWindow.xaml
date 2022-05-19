@@ -3,10 +3,20 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:bh="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:Wpftest"
+        xmlns:vm="clr-namespace:Wpftest.ViewModels"
         xmlns:b="clr-namespace:Wpftest.behaviors"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.DataContext>
+        <vm:MainWindowViewModel/>
+    </Window.DataContext>
+    <bh:Interaction.Triggers>
+        <bh:EventTrigger EventName="Loaded">
+            <bh:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </bh:EventTrigger>
+    </bh:Interaction.Triggers>
 
     <StackPanel>
         <TextBlock Text="Trueにするとメッセージボックスが表示される"
@@ -17,5 +27,13 @@
                    Margin="5"
                    FontSize="20"
                    b:MessageDialogBehavior.ShowMessage="False" />
+
+        <DataGrid
+            CanUserAddRows="False"
+            CanUserDeleteRows="False"
+            SelectionUnit="CellOrRowHeader"
+            ItemsSource="Binding Customers">
+
+        </DataGrid>
     </StackPanel>
 </Window>
