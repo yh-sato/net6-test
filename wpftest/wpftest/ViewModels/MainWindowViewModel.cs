@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Net;
 using System.Net.Http;
+using System.Text.Json;
 using efcoretest.Models;
 using Reactive.Bindings;
 
@@ -10,20 +12,27 @@ namespace Wpftest.ViewModels;
 public class MainWindowViewModel : INotifyPropertyChanged, IMainWindowViewModel
 {
     // Viewにバインドされるコマンド
-    public ReactiveCommand LoadedCommand { get; } = new();
+    public AsyncReactiveCommand LoadedCommand { get; } = new();
 
     private HttpClient client;
 
     // DataGridバインド用プロパティ
-    public List<Customer> Customers {get;} = new List<Customer>();
+    public ReactiveCollection<Customer> Customers {get; private set;} = new ReactiveCollection<Customer>();
 
     public MainWindowViewModel(HttpClient client)
     {
         this.client = client;
-        LoadedCommand.Subscribe(() =>
+        LoadedCommand.WithSubscribe(async () =>
         {
-            // ここにロード時の処理を記載
-            System.Console.WriteLine("Loaded !!");
+            // ここにロード時の処理を記載            
+            var result =  await client.GetAsync("http://localhost:5051/api/customers");
+            if (result.StatusCode == HttpStatusCode.OK) {
+                var json = await result.Content.ReadAsStringAsync();
+                // 本来はnull対策とか考える必要がある
+                foreach(var customer in JsonSerializer.Deserialize<IEnumerable<Customer>>(json)){
+                    Customers.AddOnScheduler(customer);
+                }
+            }
         });
 
         // バインド確認用
